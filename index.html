@@ -26,6 +26,10 @@
             margin: auto;
         }
 
+        #result {
+            width: 600px;
+        }
+
         .element {
             display: inline-block;
         }
@@ -49,6 +53,9 @@
                 <img src="Monster/Unknown.png" class="item" id="weapon">
                 <div id="weapon-label" class="label">?</div>
             </span>
+        </div>
+        <div class="row">
+            <div id="result" class="label">?</div>
         </div>
         <div>
             <button id="randomize">
@@ -129,35 +136,61 @@
         ];
 
         document.getElementById("randomize").addEventListener("click", () => {
-            randomize("monster", monsters, "monster");
+            let animationCounter = 0;
+            let setRandomAnimation = () => {
+                let chosen = pickRandomImages();
+                animationCounter += 1;
+                document.getElementById("result").innerText =
+                    `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}!`;
+                if (animationCounter < 30) {
+                    window.setTimeout(setRandomAnimation, animationCounter * 3);
+                } else {
+                }
+            };
+            setRandomAnimation();
+        });
+
+        function pickRandomImages() {
+            let monster = randomize("monster", monsters, "monster");
             let weapon = randomize("weapon", weapons, "weapon");
+            let damage;
             let damageType = Math.floor(Math.random() * 3);
+            let damageTypeName;
             switch (damageType) {
                 case 0: {
                     // Raw
                     if (weapon == "Light Bowgun" || weapon == "Heavy Bowgun") {
-                        randomize("Damage Types/Ammo", ammo, "damage");
+                        damageTypeName = "Damage Types/Ammo";
+                        damage = randomize(damageTypeName, ammo, "damage");
                     } else if (weapon == "Gunlance") {
-                        randomize("Damage Types/Shells", shells, "damage");
+                        damageTypeName ="Damage Types/Shells";
+                        damage = randomize(damageTypeName, shells, "damage");
                     } else {
-                        randomize("Damage Types", ["Raw"], "damage");
+                        damageTypeName ="Damage Types";
+                        damage = randomize(damageTypeName, ["Raw"], "damage");
                     }
                     break;
                 }
                 case 1: {
                     // Elements
-                    randomize("Damage Types/Element", elements, "damage");
+                    damageTypeName ="Damage Types/Element";
+                    damage = randomize(damageTypeName, elements, "damage");
                     break;
                 }
                 case 2: {
                     // Status
-                    randomize("Damage Types/Status", status, "damage");
+                    damageTypeName = "Damage Types/Status";
+                    damage = randomize(damageTypeName, status, "damage");
                     break;
                 }
             }
-
-
-        });
+            setImage("weapon", weapon, "weapon");
+            setImage("monster", monster, "monster");
+            setImage(damageTypeName, damage, "damage");
+            return {
+                weapon, monster, damage
+            };
+        }
 
         function setImage(type, element, inputName) {
             let image = document.getElementById(inputName);
@@ -167,19 +200,7 @@
         }
 
         function randomize(type, list, inputName) {
-            let finalIndex = Math.floor(Math.random() * list.length);
-            let animationCounter = 0;
-            let setRandomAnimation = () => {
-                setImage(type, list[animationCounter % list.length], inputName);
-                animationCounter += 1;
-                if (animationCounter >= 30) {
-                    setImage(type, list[finalIndex], inputName);
-                } else {
-                    window.setTimeout(setRandomAnimation, animationCounter * 3);
-                }
-            };
-            setRandomAnimation();
-            return list[finalIndex];
+            return list[Math.floor(Math.random() * list.length)];
         }
     </script>
 
