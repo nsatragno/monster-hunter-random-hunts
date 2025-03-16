@@ -82,18 +82,26 @@
         }
 
         .item {
-            width: 256px;
+            max-width: 256px;
+            width: 12vw;
         }
 
         .row {
-            padding: 20px 0px;
+            padding: 1vh 0px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .label {
+                font-size: 12px;
+            }
+            
         }
 
         .label {
             background-color: #e6c6ff;
             width: 300px;
             margin: auto;
-            font-size: 24px;
+            font-size: large;
             border-radius: 100px;
             border: 7px rebeccapurple solid;
             max-width: 90vw;
@@ -121,7 +129,8 @@
         }
 
         #title-image {
-            max-width: 90vw;
+            max-width: 40vw;
+            min-width: 400px;
         }
     </style>
 
@@ -231,6 +240,7 @@
         document.getElementById("body").background = "Backgrounds/BG" + backgroundIndex + ".png";
 
         let drumroll = new Audio("drumroll.wav");
+        drumroll.volume = 0.1;
         const monsterStop = 200;
         const allStop = 380;
         document.getElementById("randomize").addEventListener("click", () => {
