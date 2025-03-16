@@ -132,7 +132,6 @@
             randomize("monster", monsters, "monster");
             let weapon = randomize("weapon", weapons, "weapon");
             let damageType = Math.floor(Math.random() * 3);
-            debugger;
             switch (damageType) {
                 case 0: {
                     // Raw
@@ -160,13 +159,27 @@
 
         });
 
-        function randomize(type, list, inputName) {
+        function setImage(type, element, inputName) {
             let image = document.getElementById(inputName);
-            let index = Math.floor(Math.random() * list.length);
             let label = document.getElementById(inputName + "-label");
-            label.innerText = list[index];
-            image.src = type + "/" + list[index] + ".png";
-            return list[index];
+            label.innerText = element;
+            image.src = type + "/" + element + ".png";
+        }
+
+        function randomize(type, list, inputName) {
+            let finalIndex = Math.floor(Math.random() * list.length);
+            let animationCounter = 0;
+            let setRandomAnimation = () => {
+                setImage(type, list[animationCounter % list.length], inputName);
+                animationCounter += 1;
+                if (animationCounter >= 30) {
+                    setImage(type, list[finalIndex], inputName);
+                } else {
+                    window.setTimeout(setRandomAnimation, animationCounter * 3);
+                }
+            };
+            setRandomAnimation();
+            return list[finalIndex];
         }
     </script>
 
