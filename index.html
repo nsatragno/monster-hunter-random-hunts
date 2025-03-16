@@ -1,62 +1,85 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
+            margin: 0;
             background-size: 100vw 100vh;
+            font-family: "Atma";
         }
 
         .content {
             text-align: center;
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(7px);
+            height: 100%;
+            min-height: 100vh;
+            width: 100%;
         }
 
         .item {
             width: 256px;
-            margin: 0px 30px;
         }
 
         .row {
-            margin: 20px 0px;
+            padding: 20px 0px;
         }
 
         .label {
-            background-color: white;
+            background-color: #e6c6ff;
             width: 300px;
             margin: auto;
+            font-size: 24px;
+            border-radius: 100px;
+            border: 7px rebeccapurple solid;
+            max-width: 90vw;
         }
 
         #result {
             width: 600px;
         }
 
+        #randomize {
+            background-color: #e6c6ff;
+            font-weight: bold;
+            font-size: 24px;
+            border-radius: 100px;
+            border: 7px rebeccapurple solid;
+            font-family: "Atma";
+            cursor: pointer;
+        }
+        #randomize:hover {
+            background-color: #f0ddff;
+        }
+
         .element {
             display: inline-block;
         }
 
-        table {
-            width: 100%;
-            background-color: white;
-        }
-
-        table th {
-            width: 33%;
+        #title-image {
+            max-width: 90vw;
         }
     </style>
 
 </head>
 
 <body id="body" background="Backgrounds/BG6.png">
-    <img src="Title.png">
     <div class="content">
         <div class="row">
+            <img src="Title.png" id="title-image">
+        </div>
+        <div class="row">
             <img src="Monster/Unknown.png" class="item" id="monster">
-            <div id="monster-label" class="label">?</div>
+            <div id="monster-label" class="label" style="margin-top: -15px">?</div>
         </div>
         <div class="row">
             <span class="element">
                 <img src="monster/Unknown.png" class="item" id="damage">
-                <div id="damage-label" class="label">?</div>
+                <div id="damage-label" class="label" style="margin-top: -15px">?</div>
             </span>
             <span class="element">
                 <img src="Monster/Unknown.png" class="item" id="weapon">
@@ -66,25 +89,10 @@
         <div class="row">
             <div id="result" class="label">?</div>
         </div>
-        <div>
+        <div class="row">
             <button id="randomize">
                 Randomize!
             </button>
-        </div>
-
-        <div>
-            <h1 style="color: white">History</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Monster</th>
-                        <th>Damage</th>
-                        <th>Weapon</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                </tbody>
-            </table>
         </div>
     </div>
 
@@ -159,6 +167,9 @@
             "Sleep",
         ];
 
+        let backgroundIndex = Math.floor(Math.random() * 16) + 1;
+        document.getElementById("body").background = "Backgrounds/BG" + backgroundIndex + ".png";
+
         let drumroll = new Audio("drumroll.wav");
         const monsterStop = 200;
         const allStop = 380;
@@ -185,7 +196,6 @@
                 if (animationCounter < allStop) {
                     window.setTimeout(setRandomAnimation, 10);
                 } else {
-                    loadTable([final]);
                 }
             };
             setRandomAnimation();
@@ -240,27 +250,6 @@
         function randomize(type, list, inputName) {
             return list[Math.floor(Math.random() * list.length)];
         }
-
-        function loadTable(list) {
-            let body = document.getElementById("table-body");
-            for (let element of list) {
-                let tr = document.createElement("tr");
-                if (body.children.length > 0) {
-                    body.insertBefore(tr, body.firstChild);
-                } else {
-                    body.appendChild(tr);
-                }
-                let monster = document.createElement("td");
-                monster.innerText = element.monster;
-                tr.appendChild(monster);
-                let damage = document.createElement("td");
-                damage.innerText = element.damage;
-                tr.appendChild(damage);
-                let weapon = document.createElement("td");
-                weapon.innerText = element.weapon;
-                tr.appendChild(weapon);
-            }
-        };
     </script>
 
 </body>
