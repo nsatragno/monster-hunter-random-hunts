@@ -4,7 +4,7 @@
 <head>
     <style>
         body {
-            background-size: cover;
+            background-size: 100vw 100vh;
         }
 
         .content {
@@ -137,13 +137,20 @@
 
         document.getElementById("randomize").addEventListener("click", () => {
             let animationCounter = 0;
+            let final = pickRandomImages();
             let setRandomAnimation = () => {
                 let chosen = pickRandomImages();
                 animationCounter += 1;
+                if (animationCounter >= 50) {
+                    chosen.monster = final.monster;
+                }
                 document.getElementById("result").innerText =
                     `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}!`;
-                if (animationCounter < 30) {
-                    window.setTimeout(setRandomAnimation, animationCounter * 3);
+                setImage("weapon", chosen.weapon, "weapon");
+                setImage("monster", chosen.monster, "monster");
+                setImage(chosen.damageTypeName, chosen.damage, "damage");
+                if (animationCounter < 100) {
+                    window.setTimeout(setRandomAnimation, 20);
                 } else {
                 }
             };
@@ -184,11 +191,8 @@
                     break;
                 }
             }
-            setImage("weapon", weapon, "weapon");
-            setImage("monster", monster, "monster");
-            setImage(damageTypeName, damage, "damage");
             return {
-                weapon, monster, damage
+                weapon, monster, damage, damageTypeName
             };
         }
 
