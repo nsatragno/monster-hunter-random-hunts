@@ -5,6 +5,66 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="Damage Types\Ammo\Normal.png">
+    <link rel="preload" as="image" href="Damage Types\Ammo\Pierce.png">
+    <link rel="preload" as="image" href="Damage Types\Ammo\Spread.png">
+    <link rel="preload" as="image" href="Damage Types\Ammo\Sticky.png">
+    <link rel="preload" as="image" href="Damage Types\Element\Dragon.png">
+    <link rel="preload" as="image" href="Damage Types\Element\Fire.png">
+    <link rel="preload" as="image" href="Damage Types\Element\Ice.png">
+    <link rel="preload" as="image" href="Damage Types\Element\Thunder.png">
+    <link rel="preload" as="image" href="Damage Types\Element\Water.png">
+    <link rel="preload" as="image" href="Damage Types\Shells\Long.png">
+    <link rel="preload" as="image" href="Damage Types\Shells\Normal.png">
+    <link rel="preload" as="image" href="Damage Types\Shells\Wide.png">
+    <link rel="preload" as="image" href="Damage Types\Status\Blast.png">
+    <link rel="preload" as="image" href="Damage Types\Status\Paralysis.png">
+    <link rel="preload" as="image" href="Damage Types\Status\Poison.png">
+    <link rel="preload" as="image" href="Damage Types\Status\Sleep.png">
+    <link rel="preload" as="image" href="Damage Types\Raw.png">
+    <link rel="preload" as="image" href="Monster\Ajarakan.png">
+    <link rel="preload" as="image" href="Monster\Arkveld.png">
+    <link rel="preload" as="image" href="Monster\Balahara.png">
+    <link rel="preload" as="image" href="Monster\Blangonga.png">
+    <link rel="preload" as="image" href="Monster\Chatacabra.png">
+    <link rel="preload" as="image" href="Monster\Congalala.png">
+    <link rel="preload" as="image" href="Monster\Doshugama.png">
+    <link rel="preload" as="image" href="Monster\Gore Magala.png">
+    <link rel="preload" as="image" href="Monster\Gravios.png">
+    <link rel="preload" as="image" href="Monster\Guardian Doshaguma.png">
+    <link rel="preload" as="image" href="Monster\Guardian Ebony Odogaron.png">
+    <link rel="preload" as="image" href="Monster\Guardian Fulgur Anjanath.png">
+    <link rel="preload" as="image" href="Monster\Guardian Rathalos.png">
+    <link rel="preload" as="image" href="Monster\Gypceros.png">
+    <link rel="preload" as="image" href="Monster\Hirabami.png">
+    <link rel="preload" as="image" href="Monster\Jin Dahaad.png">
+    <link rel="preload" as="image" href="Monster\Lala Barina.png">
+    <link rel="preload" as="image" href="Monster\Nerscylla.png">
+    <link rel="preload" as="image" href="Monster\Nu Udra.png">
+    <link rel="preload" as="image" href="Monster\Quematrice.png">
+    <link rel="preload" as="image" href="Monster\Rathalos.png">
+    <link rel="preload" as="image" href="Monster\Rathian.png">
+    <link rel="preload" as="image" href="Monster\Rey Dau.png">
+    <link rel="preload" as="image" href="Monster\Rompopolo.png">
+    <link rel="preload" as="image" href="Monster\Unknown.png">
+    <link rel="preload" as="image" href="Monster\Uth Duna.png">
+    <link rel="preload" as="image" href="Monster\Xu Wu.png">
+    <link rel="preload" as="image" href="Monster\Yian Kut-Ku.png">
+    <link rel="preload" as="image" href="Weapon\Bow.png">
+    <link rel="preload" as="image" href="Weapon\Charge Blade.png">
+    <link rel="preload" as="image" href="Weapon\Dual Blades.png">
+    <link rel="preload" as="image" href="Weapon\Great Sword.png">
+    <link rel="preload" as="image" href="Weapon\Gunlance.png">
+    <link rel="preload" as="image" href="Weapon\Hammer.png">
+    <link rel="preload" as="image" href="Weapon\Heavy Bowgun.png">
+    <link rel="preload" as="image" href="Weapon\Hunting Horn.png">
+    <link rel="preload" as="image" href="Weapon\Insect Glaive.png">
+    <link rel="preload" as="image" href="Weapon\Lance.png">
+    <link rel="preload" as="image" href="Weapon\Light Bowgun.png">
+    <link rel="preload" as="image" href="Weapon\Long Sword.png">
+    <link rel="preload" as="image" href="Weapon\Switch Axe.png">
+    <link rel="preload" as="image" href="Weapon\Sword and Shield.png">
+
     <style>
         body {
             margin: 0;
@@ -190,8 +250,8 @@
                 }
                 document.getElementById("result").innerText =
                     `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}!`;
-                setImage("weapon", chosen.weapon, "weapon");
-                setImage("monster", chosen.monster, "monster");
+                setImage("Weapon", chosen.weapon, "weapon");
+                setImage("Monster", chosen.monster, "monster");
                 setImage(chosen.damageTypeName, chosen.damage, "damage");
                 if (animationCounter < allStop) {
                     window.setTimeout(setRandomAnimation, 10);
@@ -202,8 +262,8 @@
         });
 
         function pickRandomImages() {
-            let monster = randomize("monster", monsters, "monster");
-            let weapon = randomize("weapon", weapons, "weapon");
+            let monster = randomize("Monster", monsters, "monster");
+            let weapon = randomize("Weapon", weapons, "weapon");
             let damage;
             let damageType = Math.floor(Math.random() * 3);
             let damageTypeName;
