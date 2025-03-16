@@ -1,0 +1,40 @@
+3 "wheels"
+
+Wheel 1:
+	Randomly selects a monster
+Wheel 2:
+	Randomly Selects a weapon
+
+Wheel 3:
+Selects a damage type:
+	randomly selects between Raw, Element, and Status
+		- if Raw is selected, display Raw 
+			- if light bowgun or heavy bowgun was selected on the previous wheel, then instead of RAW, select an ammo type
+			- if gunlance was previously selected, choose a shelling type
+		- if Element is selected, then randomly select an element
+		- if Status is selected, randomly pick a status
+
+UI idea:
+
+randomly select a background from the folder then draw stuff on top?
+
+have a triangle with button at bottom:
+			
+			Monster
+
+
+
+Damage Type					Weapon
+
+			Spin Button
+
+
+By default each image would show the unknown image until user clicks the button
+
+when button is clicked randomly cycle through images from respective folders for 5 seconds or until results are chosen (longest time) then display final results 
+
+Maybe display the image file name below the image?
+
+final results could use the file names to create a text splash that says "Hunt [monster] with [damage type] [weapon]!"
+
+something fun to alert the user that the results are in?

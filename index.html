@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background-size: cover;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .item {
+            width: 256px;
+            margin: 0px 30px;
+        }
+
+        .row {
+            margin: 20px 0px;
+        }
+
+        .label {
+            background-color: white;
+            width: 300px;
+            margin: auto;
+        }
+
+        .element {
+            display: inline-block;
+        }
+    </style>
+
+</head>
+
+<body id="body" background="Backgrounds/BG6.png">
+    <img src="Title.png">
+    <div class="content">
+        <div class="row">
+            <img src="Monster/Unknown.png" class="item" id="monster">
+            <div id="monster-label" class="label">?</div>
+        </div>
+        <div class="row">
+            <span class="element">
+                <img src="monster/Unknown.png" class="item" id="damage">
+                <div id="damage-label" class="label">?</div>
+            </span>
+            <span class="element">
+                <img src="Monster/Unknown.png" class="item" id="weapon">
+                <div id="weapon-label" class="label">?</div>
+            </span>
+        </div>
+        <div>
+            <button id="randomize">
+                Randomize!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let monsters = [
+            "Ajarakan",
+            "Arkveld",
+            "Balahara",
+            "Blangonga",
+            "Chatacabra",
+            "Congalala",
+            "Doshugama",
+            "Gore Magala",
+            "Gravios",
+            "Guardian Doshaguma",
+            "Guardian Ebony Odogaron",
+            "Guardian Fulgur Anjanath",
+            "Guardian Rathalos",
+            "Gypceros",
+            "Hirabami",
+            "Jin Dahaad",
+            "Lala Barina",
+            "Nerscylla",
+            "Nu Udra",
+            "Quematrice",
+            "Rathalos",
+            "Rathian",
+            "Rey Dau",
+            "Rompopolo",
+            "Uth Duna",
+            "Xu Wu",
+            "Yian Kut-Ku",
+        ];
+        let weapons = [
+            "Bow",
+            "Charge Blade",
+            "Dual Blades",
+            "Great Sword",
+            "Gunlance",
+            "Hammer",
+            "Heavy Bowgun",
+            "Hunting Horn",
+            "Insect Glaive",
+            "Lance",
+            "Light Bowgun",
+            "Long Sword",
+            "Switch Axe",
+            "Sword and Shield",
+        ];
+        let ammo = [
+            "Normal",
+            "Pierce",
+            "Spread",
+            "Sticky",
+        ];
+        let shells = [
+            "Long",
+            "Normal",
+            "Wide",
+        ];
+        let elements = [
+            "Dragon",
+            "Fire",
+            "Ice",
+            "Thunder",
+            "Water",
+        ];
+        let status = [
+            "Blast",
+            "Paralysis",
+            "Poison",
+            "Sleep",
+        ];
+
+        document.getElementById("randomize").addEventListener("click", () => {
+            randomize("monster", monsters, "monster");
+            let weapon = randomize("weapon", weapons, "weapon");
+            let damageType = Math.floor(Math.random() * 3);
+            debugger;
+            switch (damageType) {
+                case 0: {
+                    // Raw
+                    if (weapon == "Light Bowgun" || weapon == "Heavy Bowgun") {
+                        randomize("Damage Types/Ammo", ammo, "damage");
+                    } else if (weapon == "Gunlance") {
+                        randomize("Damage Types/Shells", shells, "damage");
+                    } else {
+                        randomize("Damage Types", ["Raw"], "damage");
+                    }
+                    break;
+                }
+                case 1: {
+                    // Elements
+                    randomize("Damage Types/Element", elements, "damage");
+                    break;
+                }
+                case 2: {
+                    // Status
+                    randomize("Damage Types/Status", status, "damage");
+                    break;
+                }
+            }
+
+
+        });
+
+        function randomize(type, list, inputName) {
+            let image = document.getElementById(inputName);
+            let index = Math.floor(Math.random() * list.length);
+            let label = document.getElementById(inputName + "-label");
+            label.innerText = list[index];
+            image.src = type + "/" + list[index] + ".png";
+            return list[index];
+        }
+    </script>
+
+</body>
+
+</html>
