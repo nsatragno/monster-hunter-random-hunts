@@ -33,6 +33,15 @@
         .element {
             display: inline-block;
         }
+
+        table {
+            width: 100%;
+            background-color: white;
+        }
+
+        table th {
+            width: 33%;
+        }
     </style>
 
 </head>
@@ -61,6 +70,21 @@
             <button id="randomize">
                 Randomize!
             </button>
+        </div>
+
+        <div>
+            <h1 style="color: white">History</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Monster</th>
+                        <th>Damage</th>
+                        <th>Weapon</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -135,23 +159,33 @@
             "Sleep",
         ];
 
+        let drumroll = new Audio("drumroll.wav");
+        const monsterStop = 200;
+        const allStop = 380;
         document.getElementById("randomize").addEventListener("click", () => {
+            drumroll.play();
             let animationCounter = 0;
             let final = pickRandomImages();
             let setRandomAnimation = () => {
                 let chosen = pickRandomImages();
                 animationCounter += 1;
-                if (animationCounter >= 50) {
+                if (animationCounter >= monsterStop) {
                     chosen.monster = final.monster;
+                }
+                if (animationCounter >= allStop) {
+                    chosen.damage = final.damage;
+                    chosen.damageTypeName = final.damageTypeName;
+                    chosen.weapon = final.weapon;
                 }
                 document.getElementById("result").innerText =
                     `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}!`;
                 setImage("weapon", chosen.weapon, "weapon");
                 setImage("monster", chosen.monster, "monster");
                 setImage(chosen.damageTypeName, chosen.damage, "damage");
-                if (animationCounter < 100) {
-                    window.setTimeout(setRandomAnimation, 20);
+                if (animationCounter < allStop) {
+                    window.setTimeout(setRandomAnimation, 10);
                 } else {
+                    loadTable([final]);
                 }
             };
             setRandomAnimation();
@@ -206,6 +240,27 @@
         function randomize(type, list, inputName) {
             return list[Math.floor(Math.random() * list.length)];
         }
+
+        function loadTable(list) {
+            let body = document.getElementById("table-body");
+            for (let element of list) {
+                let tr = document.createElement("tr");
+                if (body.children.length > 0) {
+                    body.insertBefore(tr, body.firstChild);
+                } else {
+                    body.appendChild(tr);
+                }
+                let monster = document.createElement("td");
+                monster.innerText = element.monster;
+                tr.appendChild(monster);
+                let damage = document.createElement("td");
+                damage.innerText = element.damage;
+                tr.appendChild(damage);
+                let weapon = document.createElement("td");
+                weapon.innerText = element.weapon;
+                tr.appendChild(weapon);
+            }
+        };
     </script>
 
 </body>
