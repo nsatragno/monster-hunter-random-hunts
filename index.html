@@ -257,7 +257,12 @@
         drumroll.volume = 0.1;
         const monsterStop = 200;
         const allStop = 380;
-        let chosen = {};
+        let chosen = {
+            weapon: "Unknown",
+            monster: "Unknown",
+            damage: "Unknown",
+            damageTypeName: "Damage types",
+        };
         let spin = (types) => {
             drumroll.play();
             let animationCounter = 0;
