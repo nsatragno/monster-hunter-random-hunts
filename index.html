@@ -38,7 +38,9 @@
     <link rel="preload" as="image" href="Monster\Gypceros.png">
     <link rel="preload" as="image" href="Monster\Hirabami.png">
     <link rel="preload" as="image" href="Monster\Jin Dahaad.png">
+    <link rel="preload" as="image" href="Monster\Lagiacrus.png">
     <link rel="preload" as="image" href="Monster\Lala Barina.png">
+    <link rel="preload" as="image" href="Monster\Mizutsune.png">
     <link rel="preload" as="image" href="Monster\Nerscylla.png">
     <link rel="preload" as="image" href="Monster\Nu Udra.png">
     <link rel="preload" as="image" href="Monster\Quematrice.png">
@@ -46,10 +48,12 @@
     <link rel="preload" as="image" href="Monster\Rathian.png">
     <link rel="preload" as="image" href="Monster\Rey Dau.png">
     <link rel="preload" as="image" href="Monster\Rompopolo.png">
+    <link rel="preload" as="image" href="Monster\Seregios.png">
     <link rel="preload" as="image" href="Monster\Unknown.png">
     <link rel="preload" as="image" href="Monster\Uth Duna.png">
     <link rel="preload" as="image" href="Monster\Xu Wu.png">
     <link rel="preload" as="image" href="Monster\Yian Kut-Ku.png">
+    <link rel="preload" as="image" href="Monster\Zoh Shia.png">
     <link rel="preload" as="image" href="Weapon\Bow.png">
     <link rel="preload" as="image" href="Weapon\Charge Blade.png">
     <link rel="preload" as="image" href="Weapon\Dual Blades.png">
@@ -253,10 +257,32 @@
         let backgroundIndex = Math.floor(Math.random() * 16) + 1;
         document.getElementById("body").background = "Backgrounds/BG" + backgroundIndex + ".png";
 
-        let drumroll = new Audio("drumroll.wav");
-        drumroll.volume = 0.1;
-        const monsterStop = 200;
-        const allStop = 380;
+        let audioContext = new AudioContext();
+        let audio;
+        let drumrollAudioBuffer;
+        let crashAudioBuffer;
+        let startAudio = (audioBuffer, loop) => {
+            audio = audioContext.createBufferSource();
+            audio.buffer = audioBuffer;
+            audio.connect(audioContext.destination);
+            audio.loop = loop;
+            audio.start();
+        }
+        fetch("drumroll.wav").then(result => {
+            return result.arrayBuffer();
+        }).then(buffer => {
+            audioContext.decodeAudioData(buffer, (decodedBuffer) => {
+                drumrollAudioBuffer = decodedBuffer;
+            });
+        });
+        fetch("crash.wav").then(result => {
+            return result.arrayBuffer();
+        }).then(buffer => {
+            audioContext.decodeAudioData(buffer, (decodedBuffer) => {
+                crashAudioBuffer = decodedBuffer;
+            });
+        });
+
         let chosen = {
             weapon: "Unknown",
             monster: "Unknown",
@@ -264,8 +290,13 @@
             damageTypeName: "Damage types",
         };
         let spin = (types) => {
-            drumroll.play();
+            let monsterStop = 200;
+            let allStop = 380;
+            startAudio(drumrollAudioBuffer, true);
             let animationCounter = 0;
+            if (!types.includes("weapon")) {
+                allStop = monsterStop;
+            }
             let setRandomAnimation = () => {
                 let randomSelection = pickRandomImages();
                 animationCounter += 1;
@@ -284,6 +315,8 @@
                 if (animationCounter < allStop) {
                     window.setTimeout(setRandomAnimation, 10);
                 } else {
+                    audio.stop();
+                    startAudio(crashAudioBuffer, false);
                     if (Math.random() > 0.95) {
                         // Hunt it naked!
                         naked = true;
