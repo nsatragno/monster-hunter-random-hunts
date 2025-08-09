@@ -113,16 +113,16 @@
             width: 600px;
         }
 
-        #randomize {
+        button {
             background-color: #e6c6ff;
             font-weight: bold;
-            font-size: 24px;
+            font-size: 24px !important;
             border-radius: 100px;
             border: 7px rebeccapurple solid;
             font-family: "Atma";
             cursor: pointer;
         }
-        #randomize:hover {
+        button:hover {
             background-color: #f0ddff;
         }
 
@@ -162,7 +162,15 @@
         </div>
         <div class="row">
             <button id="randomize" class="label">
-                Randomize!
+                Randomize all!
+            </button>
+        </div>
+        <div class="row">
+            <button id="randomize-weapon" class="label">
+                Randomize weapon
+            </button>
+            <button id="randomize-monster" class="label">
+                Randomize monster
             </button>
         </div>
     </div>
@@ -249,20 +257,20 @@
         drumroll.volume = 0.1;
         const monsterStop = 200;
         const allStop = 380;
-        document.getElementById("randomize").addEventListener("click", () => {
+        let chosen = {};
+        let spin = (types) => {
             drumroll.play();
             let animationCounter = 0;
-            let final = pickRandomImages();
             let setRandomAnimation = () => {
-                let chosen = pickRandomImages();
+                let randomSelection = pickRandomImages();
                 animationCounter += 1;
-                if (animationCounter >= monsterStop) {
-                    chosen.monster = final.monster;
+                if (animationCounter < monsterStop && types.includes("monster")) {
+                    chosen.monster = randomSelection.monster;
                 }
-                if (animationCounter >= allStop) {
-                    chosen.damage = final.damage;
-                    chosen.damageTypeName = final.damageTypeName;
-                    chosen.weapon = final.weapon;
+                if (animationCounter < allStop && types.includes("weapon")) {
+                    chosen.damage = randomSelection.damage;
+                    chosen.damageTypeName = randomSelection.damageTypeName;
+                    chosen.weapon = randomSelection.weapon;
                 }
                 setImage("Weapon", chosen.weapon, "weapon");
                 setImage("Monster", chosen.monster, "monster");
@@ -291,7 +299,10 @@
                     `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}${nakedText}!`;
             };
             setRandomAnimation();
-        });
+        };
+        document.getElementById("randomize").addEventListener("click", spin.bind(this, ["monster", "weapon"]));
+        document.getElementById("randomize-weapon").addEventListener("click", spin.bind(this, ["weapon"]));
+        document.getElementById("randomize-monster").addEventListener("click", spin.bind(this, ["monster"]));
 
         function pickRandomImages() {
             let monster = randomize("Monster", monsters, "monster");
