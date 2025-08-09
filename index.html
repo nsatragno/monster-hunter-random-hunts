@@ -261,6 +261,7 @@
         let audio;
         let drumrollAudioBuffer;
         let crashAudioBuffer;
+        let moanAudioBuffer;
         let startAudio = (audioBuffer, loop) => {
             audio = audioContext.createBufferSource();
             audio.buffer = audioBuffer;
@@ -280,6 +281,13 @@
         }).then(buffer => {
             audioContext.decodeAudioData(buffer, (decodedBuffer) => {
                 crashAudioBuffer = decodedBuffer;
+            });
+        });
+        fetch("moan.wav").then(result => {
+            return result.arrayBuffer();
+        }).then(buffer => {
+            audioContext.decodeAudioData(buffer, (decodedBuffer) => {
+                moanAudioBuffer = decodedBuffer;
             });
         });
 
@@ -316,7 +324,6 @@
                     window.setTimeout(setRandomAnimation, 10);
                 } else {
                     audio.stop();
-                    startAudio(crashAudioBuffer, false);
                     if (Math.random() > 0.95) {
                         // Hunt it naked!
                         naked = true;
@@ -331,6 +338,7 @@
                             label.style.backgroundColor = "";
                         });
                     }
+                    startAudio(naked ? moanAudioBuffer : crashAudioBuffer, false);
                 }
                 let nakedText = naked ? " NAKED" : "";
                 document.getElementById("result").innerText =
