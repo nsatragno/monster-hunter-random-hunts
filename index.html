@@ -103,7 +103,9 @@
             margin: auto;
             font-size: large;
             border-radius: 100px;
-            border: 7px rebeccapurple solid;
+            border-color: rebeccapurple;
+            border-width: 7px;
+            border-style: solid;
             max-width: 90vw;
         }
 
@@ -159,7 +161,7 @@
             <div id="result" class="label">?</div>
         </div>
         <div class="row">
-            <button id="randomize">
+            <button id="randomize" class="label">
                 Randomize!
             </button>
         </div>
@@ -183,7 +185,9 @@
             "Gypceros",
             "Hirabami",
             "Jin Dahaad",
+            "Lagiacrus",
             "Lala Barina",
+            "Mizutsune",
             "Nerscylla",
             "Nu Udra",
             "Quematrice",
@@ -191,9 +195,11 @@
             "Rathian",
             "Rey Dau",
             "Rompopolo",
+            "Seregios",
             "Uth Duna",
             "Xu Wu",
             "Yian Kut-Ku",
+            "Zoh Shia",
         ];
         let weapons = [
             "Bow",
@@ -258,15 +264,31 @@
                     chosen.damageTypeName = final.damageTypeName;
                     chosen.weapon = final.weapon;
                 }
-                document.getElementById("result").innerText =
-                    `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}!`;
                 setImage("Weapon", chosen.weapon, "weapon");
                 setImage("Monster", chosen.monster, "monster");
                 setImage(chosen.damageTypeName, chosen.damage, "damage");
+                let naked;
                 if (animationCounter < allStop) {
                     window.setTimeout(setRandomAnimation, 10);
                 } else {
+                    if (Math.random() > 0.95) {
+                        // Hunt it naked!
+                        naked = true;
+                        document.querySelectorAll(".label").forEach(label => {
+                            label.style.borderColor = "rgb(148, 0, 0)";
+                            label.style.backgroundColor = "#ffa9a9";
+                        });
+                    } else {
+                        naked = false;
+                        document.querySelectorAll(".label").forEach(label => {
+                            label.style.borderColor = "";
+                            label.style.backgroundColor = "";
+                        });
+                    }
                 }
+                let nakedText = naked ? " NAKED" : "";
+                document.getElementById("result").innerText =
+                    `Hunt ${chosen.monster} with ${chosen.damage} ${chosen.weapon}${nakedText}!`;
             };
             setRandomAnimation();
         });
